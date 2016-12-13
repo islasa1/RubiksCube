@@ -65,7 +65,7 @@ class Sticker
 		Sticker(rcolor_t sColor, rcolor_t sFace);
 		Sticker(rcolor_t sFace);
 		void SetFace(rcolor_t sFace);
-		void SetColor(rcolor_t sColor);
+		bool SetColor(rcolor_t sColor);
 		rcolor_t GetFace();
 		rcolor_t GetColor();
 };

@@ -25,15 +25,17 @@ void Sticker::SetFace(rcolor_t sFace)
 	this->face = sFace;
 }
 
-void Sticker::SetColor(rcolor_t sColor)
+bool Sticker::SetColor(rcolor_t sColor)
 {
-	if (this->color == BLACK)
+	if (this->color == BLACK || sColor == BLACK)
 	{
 		this->color = sColor;
+		return true;
 	}
 	else
 	{
 		std::cout << "Error: Cannot set sticker color more than once." << std::endl;
+		return false;
 	}
 }
 

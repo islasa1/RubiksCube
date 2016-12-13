@@ -2,15 +2,15 @@
 
 #include "rface.hpp"
 
-#define CENTER	(*pieces[1][1])
-#define TLEFT	  (*pieces[0][0])
-#define TRIGHT	(*pieces[0][2])
-#define DLEFT	  (*pieces[2][0])
-#define DRIGHT	(*pieces[2][2])
-#define TOP			(*pieces[0][1])
-#define DOWN		(*pieces[2][1])
-#define LEFT		(*pieces[1][0])
-#define RIGHT		(*pieces[1][2])
+#define ARR_TLEFT       (*pieces[0][0])
+#define ARR_TOP         (*pieces[0][1])
+#define ARR_TRIGHT      (*pieces[0][2])
+#define ARR_LEFT        (*pieces[1][0])
+#define ARR_CENTER      (*pieces[1][1])
+#define ARR_RIGHT       (*pieces[1][2])
+#define ARR_DLEFT       (*pieces[2][0])
+#define ARR_DOWN        (*pieces[2][1])
+#define ARR_DRIGHT      (*pieces[2][2])
 
 
 void RFace::InitPositions(RPiece** c, RPiece** t, RPiece** b, RPiece** l, RPiece** r, RPiece** tl, RPiece** tr, RPiece** bl, RPiece** br)
@@ -29,15 +29,15 @@ void RFace::InitPositions(RPiece** c, RPiece** t, RPiece** b, RPiece** l, RPiece
 void RFace::InitPieces(RCenter* c, REdge* t, REdge* b, REdge* l, REdge* r, RCorner* tl, RCorner* tr, RCorner* bl, RCorner* br)
 {	
 	this->face = c->GetFace();
-	CENTER= c;
-	TOP = t;
-	DOWN = b;
-	LEFT = l;
-	RIGHT = r;
-	TRIGHT =  tr;
-	TLEFT = tl;
-	DRIGHT = br;
-	DLEFT= bl;
+	ARR_CENTER= c;
+	ARR_TOP = t;
+	ARR_DOWN = b;
+	ARR_LEFT = l;
+	ARR_RIGHT = r;
+	ARR_TRIGHT =  tr;
+	ARR_TLEFT = tl;
+	ARR_DRIGHT = br;
+	ARR_DLEFT= bl;
 }
 
 // Rotation - the majority of logic
@@ -79,61 +79,61 @@ void RFace::Rotate(int rotation)
 	{
 		rcolor_t tempEdgeFace;
 		std::vector<rcolor_t> tempCornerFaces;
-		tempEdgeFace = ((REdge*)TOP)->GetOtherFace(this->face);
-		tempCornerFaces = ((RCorner*)TRIGHT)->GetOtherFaces(this->face);
+		tempEdgeFace = ((REdge*)ARR_TOP)->GetOtherFace(this->face);
+		tempCornerFaces = ((RCorner*)ARR_TRIGHT)->GetOtherFaces(this->face);
 		
 		switch(rotation)
 		{
 			case CW_1:
 			case CW_2:
 				// Edges
-				MoveEdge((REdge*)TOP, (REdge*)RIGHT);
-				MoveEdge((REdge*)RIGHT, (REdge*)DOWN);
-				MoveEdge((REdge*)DOWN, (REdge*)LEFT);
-				MoveEdge((REdge*)LEFT, tempEdgeFace);
+				MoveEdge((REdge*)ARR_TOP, (REdge*)ARR_RIGHT);
+				MoveEdge((REdge*)ARR_RIGHT, (REdge*)ARR_DOWN);
+				MoveEdge((REdge*)ARR_DOWN, (REdge*)ARR_LEFT);
+				MoveEdge((REdge*)ARR_LEFT, tempEdgeFace);
 				
 				// Corners
-				MoveCorner((RCorner*)TRIGHT, (RCorner*)DRIGHT);
-				MoveCorner((RCorner*)DRIGHT, (RCorner*)DLEFT);
-				MoveCorner((RCorner*)DLEFT, (RCorner*)TLEFT);
-				MoveCorner((RCorner*)TLEFT, tempCornerFaces);
+				MoveCorner((RCorner*)ARR_TRIGHT, (RCorner*)ARR_DRIGHT);
+				MoveCorner((RCorner*)ARR_DRIGHT, (RCorner*)ARR_DLEFT);
+				MoveCorner((RCorner*)ARR_DLEFT, (RCorner*)ARR_TLEFT);
+				MoveCorner((RCorner*)ARR_TLEFT, tempCornerFaces);
 				break;
 			case CCW_1:
 			case CCW_2:
 				// Edges
-				MoveEdge((REdge*)TOP, (REdge*)LEFT);
-				MoveEdge((REdge*)LEFT, (REdge*)DOWN);
-				MoveEdge((REdge*)DOWN, (REdge*)RIGHT);
-				MoveEdge((REdge*)RIGHT, tempEdgeFace);
+				MoveEdge((REdge*)ARR_TOP, (REdge*)ARR_LEFT);
+				MoveEdge((REdge*)ARR_LEFT, (REdge*)ARR_DOWN);
+				MoveEdge((REdge*)ARR_DOWN, (REdge*)ARR_RIGHT);
+				MoveEdge((REdge*)ARR_RIGHT, tempEdgeFace);
 				
 				
 				// Corners
-				MoveCorner((RCorner*)TRIGHT, (RCorner*)TLEFT);
-				MoveCorner((RCorner*)TLEFT, (RCorner*)DLEFT);
-				MoveCorner((RCorner*)DLEFT, (RCorner*)DRIGHT);
-				MoveCorner((RCorner*)DRIGHT, tempCornerFaces);
+				MoveCorner((RCorner*)ARR_TRIGHT, (RCorner*)ARR_TLEFT);
+				MoveCorner((RCorner*)ARR_TLEFT, (RCorner*)ARR_DLEFT);
+				MoveCorner((RCorner*)ARR_DLEFT, (RCorner*)ARR_DRIGHT);
+				MoveCorner((RCorner*)ARR_DRIGHT, tempCornerFaces);
 				
 				break;
 			case R180_1:
 			case R180_2:
 				// Edges
-				MoveEdge((REdge*)TOP, (REdge*)DOWN);
-				MoveEdge((REdge*)DOWN, tempEdgeFace);
+				MoveEdge((REdge*)ARR_TOP, (REdge*)ARR_DOWN);
+				MoveEdge((REdge*)ARR_DOWN, tempEdgeFace);
 				
-				tempEdgeFace = ((REdge*)LEFT)->GetOtherFace(this->face);
-				MoveEdge((REdge*)LEFT, (REdge*)RIGHT);
-				MoveEdge((REdge*)RIGHT, tempEdgeFace);
+				tempEdgeFace = ((REdge*)ARR_LEFT)->GetOtherFace(this->face);
+				MoveEdge((REdge*)ARR_LEFT, (REdge*)ARR_RIGHT);
+				MoveEdge((REdge*)ARR_RIGHT, tempEdgeFace);
 				
 				// Corners
-				MoveCorner((RCorner*)TRIGHT, (RCorner*)DRIGHT);
-				MoveCorner((RCorner*)DRIGHT, (RCorner*)DLEFT);
-				MoveCorner((RCorner*)DLEFT, (RCorner*)TLEFT);
-				MoveCorner((RCorner*)TLEFT, tempCornerFaces);
-				tempCornerFaces = ((RCorner*)TRIGHT)->GetOtherFaces(this->face);
-				MoveCorner((RCorner*)TRIGHT, (RCorner*)DRIGHT);
-				MoveCorner((RCorner*)DRIGHT, (RCorner*)DLEFT);
-				MoveCorner((RCorner*)DLEFT, (RCorner*)TLEFT);
-				MoveCorner((RCorner*)TLEFT, tempCornerFaces);
+				MoveCorner((RCorner*)ARR_TRIGHT, (RCorner*)ARR_DRIGHT);
+				MoveCorner((RCorner*)ARR_DRIGHT, (RCorner*)ARR_DLEFT);
+				MoveCorner((RCorner*)ARR_DLEFT, (RCorner*)ARR_TLEFT);
+				MoveCorner((RCorner*)ARR_TLEFT, tempCornerFaces);
+				tempCornerFaces = ((RCorner*)ARR_TRIGHT)->GetOtherFaces(this->face);
+				MoveCorner((RCorner*)ARR_TRIGHT, (RCorner*)ARR_DRIGHT);
+				MoveCorner((RCorner*)ARR_DRIGHT, (RCorner*)ARR_DLEFT);
+				MoveCorner((RCorner*)ARR_DLEFT, (RCorner*)ARR_TLEFT);
+				MoveCorner((RCorner*)ARR_TLEFT, tempCornerFaces);
 				
 				break;
 		}
@@ -213,6 +213,14 @@ void RFace::MoveCorner(RCorner* posOld, std::vector<rcolor_t> newFaces)
 	posOld->SetFace(shiftAway, commonFace);
 }
 
+REdge& RFace::GetEdge(int row, int column) {
+	return **((REdge**)pieces[row][column]);
+}
+
+RCorner& RFace::GetCorner(int row, int column) {
+	return **((RCorner**)pieces[row][column]);
+}
+
 void RFace::RotateCW()
 {
 	this->Rotate(CW_1);	
@@ -236,17 +244,17 @@ std::vector<std::vector<rcolor_t> > RFace::GetColors()
 	std::vector<rcolor_t> r1;
 	std::vector<rcolor_t> r2;
 
-	r0.push_back(TLEFT->GetColor(this->face));
-	r0.push_back(TOP->GetColor(this->face));
-	r0.push_back(TRIGHT->GetColor(this->face));
+	r0.push_back(ARR_TLEFT->GetColor(this->face));
+	r0.push_back(ARR_TOP->GetColor(this->face));
+	r0.push_back(ARR_TRIGHT->GetColor(this->face));
 
-	r1.push_back(LEFT->GetColor(this->face));
-	r1.push_back(CENTER->GetColor(this->face));
-	r1.push_back(RIGHT->GetColor(this->face));
+	r1.push_back(ARR_LEFT->GetColor(this->face));
+	r1.push_back(ARR_CENTER->GetColor(this->face));
+	r1.push_back(ARR_RIGHT->GetColor(this->face));
 
-	r2.push_back(DLEFT->GetColor(this->face));
-	r2.push_back(DOWN->GetColor(this->face));
-	r2.push_back(DRIGHT->GetColor(this->face));
+	r2.push_back(ARR_DLEFT->GetColor(this->face));
+	r2.push_back(ARR_DOWN->GetColor(this->face));
+	r2.push_back(ARR_DRIGHT->GetColor(this->face));
 
 	colors.push_back(r0);
 	colors.push_back(r1);
@@ -257,32 +265,60 @@ std::vector<std::vector<rcolor_t> > RFace::GetColors()
 
 void RFace::SetAllColors(rcolor_t color)
 {
-	CENTER->SetColor(this->face, color);
+	ARR_CENTER->SetColor(this->face, color);
 
-	TRIGHT->SetColor(this->face, color);
-	TLEFT->SetColor(this->face, color);
-	DRIGHT->SetColor(this->face, color);
-	DLEFT->SetColor(this->face, color);
+	ARR_TRIGHT->SetColor(this->face, color);
+	ARR_TLEFT->SetColor(this->face, color);
+	ARR_DRIGHT->SetColor(this->face, color);
+	ARR_DLEFT->SetColor(this->face, color);
 
-	TOP->SetColor(this->face, color);
-	DOWN->SetColor(this->face, color);
-	LEFT->SetColor(this->face, color);
-	RIGHT->SetColor(this->face, color);
+	ARR_TOP->SetColor(this->face, color);
+	ARR_DOWN->SetColor(this->face, color);
+	ARR_LEFT->SetColor(this->face, color);
+	ARR_RIGHT->SetColor(this->face, color);
+}
+
+bool RFace::SetStickerColor(rcolor_t color, rposition_t pos)
+{
+	switch(pos)
+	{
+		case TLEFT:
+			return ARR_TLEFT->SetColor(this->face, color);
+		case TOP:
+			return ARR_TOP->SetColor(this->face, color);
+		case TRIGHT:
+			return ARR_TRIGHT->SetColor(this->face, color);
+		case LEFT:
+			return ARR_LEFT->SetColor(this->face, color);
+		case CENTER:
+			return ARR_CENTER->SetColor(this->face, color);
+		case RIGHT:
+			return ARR_RIGHT->SetColor(this->face, color);
+		case DLEFT:
+			return ARR_DLEFT->SetColor(this->face, color);
+		case DOWN:
+			return ARR_DOWN->SetColor(this->face, color);
+		case DRIGHT:
+			return ARR_DRIGHT->SetColor(this->face, color);
+		default :
+			std::cout << "No such position found!" << std::endl;
+			return false;	
+	}
 }
 
 /*
 std::ostream& operator<<(std::ostream& os, RFace& face)
 {
 	std::cout << "Row 1" << std::endl;
-	std::cout << *(RCorner*)face.TLEFT << std::endl;
-	std::cout << *(REdge*)face.TOP << std::endl;
-	std::cout << *(RCorner*)face.TRIGHT << std::endl;
+	std::cout << *(RCorner*)face.ARR_TLEFT << std::endl;
+	std::cout << *(REdge*)face.ARR_TOP << std::endl;
+	std::cout << *(RCorner*)face.ARR_TRIGHT << std::endl;
 	std::cout << "Row 2" << std::endl;
-	std::cout << *(REdge*)face.LEFT<< std::endl;
-	std::cout << *(RCenter*)face.CENTER<< std::endl;
-	std::cout << *(REdge*)face.RIGHT << std::endl;
+	std::cout << *(REdge*)face.ARR_LEFT<< std::endl;
+	std::cout << *(RARR_CENTER*)face.ARR_CENTER<< std::endl;
+	std::cout << *(REdge*)face.ARR_RIGHT << std::endl;
 	std::cout << "Row 3" << std::endl;
-	std::cout << *(RCorner*)face.DLEFT<< std::endl;
-	std::cout << *(REdge*)face.DOWN << std::endl;
-	std::cout << *(RCorner*)face.DRIGHT<< std::endl;
+	std::cout << *(RCorner*)face.ARR_DLEFT<< std::endl;
+	std::cout << *(REdge*)face.ARR_DOWN << std::endl;
+	std::cout << *(RCorner*)face.ARR_DRIGHT<< std::endl;
 }*/

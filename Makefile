@@ -6,7 +6,7 @@
 # an executable from specified directories
 #################################################
 
-INCLUDE = ../HW6/RubiksCube
+INCLUDE = ./RubiksCube
 LIB_DIRS = 
 CC = gcc -std=gnu99
 CPP = g++
@@ -18,6 +18,7 @@ CDEFS =
 CFLAGS = -I$(INCLUDE) $(CDEFS)
 DEBUGFLAGS = -O0 -g -Wall -pedantic
 LIBS =
+CVLIBS = `pkg-config --libs opencv` -L/usr/lib -lopencv_core -lopencv_flann -lopencv_video
 
 # Things to build
 #
@@ -47,6 +48,15 @@ all: ${PRODUCT}
 
 # Rule for making executables
 rubiks: $(OBJ)
+	@echo Executable type: $(PRODUCT_EXT) 
+	@mkdir -p $(OBJS_DIR)
+	$(CPP) $(LDFLAGS) $(CFLAGS) $(DEBUGFLAGS) -o $@$(PRODUCT_EXT) $^ $(LIBS)
+	
+	
+rubiksCV: CDEFS = -DOPENCV 
+rubiksCV: LIBS += $(CVLIBS)
+rubiksCV: $(OBJS_DIR)/rcubeOpenCV.o
+rubiksCV: $(OBJS_DIR)/rcubeOpenCV.o $(OBJ)
 	@echo Executable type: $(PRODUCT_EXT) 
 	@mkdir -p $(OBJS_DIR)
 	$(CPP) $(LDFLAGS) $(CFLAGS) $(DEBUGFLAGS) -o $@$(PRODUCT_EXT) $^ $(LIBS)

@@ -14,7 +14,7 @@ class RPiece
 {
 	public:
 		virtual rcolor_t GetColor(rcolor_t sFace) = 0;
-		virtual void SetColor(rcolor_t sFace, rcolor_t sColor) = 0;
+		virtual bool SetColor(rcolor_t sFace, rcolor_t sColor) = 0;
 };
 
 // Center of Rubik's Cube Face
@@ -26,7 +26,7 @@ class RCenter : public RPiece
 		RCenter(Sticker sticker);
 		rcolor_t GetColor(rcolor_t sFace);
 		rcolor_t GetFace();
-		void SetColor(rcolor_t sFace, rcolor_t sColor);
+		bool SetColor(rcolor_t sFace, rcolor_t sColor);
 		friend std::ostream& operator<<(std::ostream& os, RCenter&);
 };
 
@@ -39,7 +39,7 @@ class REdge : public RPiece
 	public:
 		REdge(Sticker s1, Sticker s2);
 		rcolor_t GetColor(rcolor_t sFace);
-		void SetColor(rcolor_t sFace, rcolor_t sColor);
+		bool SetColor(rcolor_t sFace, rcolor_t sColor);
 		void SetFace(rcolor_t oldFace, rcolor_t newFace);
 		
 		rcolor_t GetOtherFace(rcolor_t sFace);
@@ -57,11 +57,10 @@ class RCorner : public RPiece
 	public:
 		RCorner(Sticker s1, Sticker s2, Sticker s3);
 		rcolor_t GetColor(rcolor_t sFace);
-		void SetColor(rcolor_t sFace, rcolor_t sColor);
+		bool SetColor(rcolor_t sFace, rcolor_t sColor);
 		void SetFace(rcolor_t oldFace, rcolor_t newFace);
 		
 		std::vector<rcolor_t> GetOtherFaces(rcolor_t sFace);
-		
 		
 		friend std::ostream& operator<<(std::ostream& os, RCorner&);
 };

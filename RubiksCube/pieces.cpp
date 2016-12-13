@@ -29,16 +29,16 @@ rcolor_t RCenter::GetFace()
 	return this->sticker.GetFace();	
 }
 
-void RCenter::SetColor(rcolor_t sFace, rcolor_t sColor)
+bool RCenter::SetColor(rcolor_t sFace, rcolor_t sColor)
 {
 	if (this->sticker.GetFace() == sFace)
 	{
-		this->sticker.SetColor(sColor);
+		return this->sticker.SetColor(sColor);
 	}
 	else
 	{
 		std::cout << "Error: Piece does not have a sticker on face " << sFace << std::endl;
-		return;
+		return false;
 	}
 }
 
@@ -80,20 +80,20 @@ rcolor_t REdge::GetColor(rcolor_t sFace)
 }
 
 
-void REdge::SetColor(rcolor_t sFace, rcolor_t sColor)
+bool REdge::SetColor(rcolor_t sFace, rcolor_t sColor)
 {
 	if (this->sticker1.GetFace() == sFace)
 	{
-		this->sticker1.SetColor(sColor);
+		return this->sticker1.SetColor(sColor);
 	}
 	else if (this->sticker2.GetFace() == sFace)
 	{
-		this->sticker2.SetColor(sColor);
+		return this->sticker2.SetColor(sColor);
 	}
 	else
 	{
 		std::cout << "Error: Piece does not have a sticker on face " << sFace << std::endl;
-		return;
+		return false;
 	}
 }
 
@@ -172,24 +172,24 @@ rcolor_t RCorner::GetColor(rcolor_t sFace)
 	}
 }
 
-void RCorner::SetColor(rcolor_t sFace, rcolor_t sColor)
+bool RCorner::SetColor(rcolor_t sFace, rcolor_t sColor)
 {
 	if (this->sticker1.GetFace() == sFace)
 	{
-		this->sticker1.SetColor(sColor);
+		return this->sticker1.SetColor(sColor);
 	}
 	else if (this->sticker2.GetFace() == sFace)
 	{
-		this->sticker2.SetColor(sColor);
+		return this->sticker2.SetColor(sColor);
 	}
 	else if (this->sticker3.GetFace() == sFace)
 	{
-		this->sticker3.SetColor(sColor);
+		return this->sticker3.SetColor(sColor);
 	}
 	else
 	{
 		std::cout << "Error: Piece does not have a sticker on face " << sFace << std::endl;
-		return;
+		return false;
 	}
 }
 
